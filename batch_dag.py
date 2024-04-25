@@ -67,7 +67,7 @@ def dag():
         data['links'] = ('https://store.steampowered.com/app/'+ data['app_id']).astype(str)
         Game_description = pd.Series([]) 
     
-        for i in range(500):
+        for i in range(len(data)):
             url = data['links'][i]
             url_contents = urllib.request.urlopen(url).read()
             soup = bs4.BeautifulSoup(url_contents, 'html.parser')
@@ -85,12 +85,15 @@ def dag():
         data.replace('nan', np.nan, inplace=True)
         data = data.dropna(subset=['Game_description'])
 
-        for i in range(0,100):
+        for i in range(len(data)):
             data['Game_description'][i] = re.sub('<.*?>', ' ', data['Game_description'][i])
             data['Game_description'][i] = re.sub('\\n.*\\n', ' ', data['Game_description'][i])
             data['Game_description'][i] = data['Game_description'][i].replace("\t","")
             data['Game_description'][i] = data['Game_description'][i].translate(data['Game_description'][i].maketrans(' ',' ',string.punctuation))
 
+        data['Game_description'] = data['Game_description'].str.replace('\r', '')
+        data['Game_description'] = data['Game_description'].str.replace('\n', '')
+        
         return data
 
     @task
