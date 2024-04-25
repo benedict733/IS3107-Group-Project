@@ -87,7 +87,7 @@ def dag():
         df = df.dropna(subset=['os'])
         df = df[['recommendationid', 'author', 'review', 'timestamp_created', 'timestamp_updated', 'voted_up', 'votes_up',
        'weighted_vote_score', 'app_id', 'title', 'date_release', 'rating', 'positive_ratio', 'user_reviews', 'price_final', 'price_original',
-       'os']]
+       'os', 'Game_description']]
 
         return df
     
